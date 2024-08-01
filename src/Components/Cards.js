@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export default function Cards({data,onDelete}) {
+export default function Cards({data,onDelete,onEdit}) {
 
     const {title,desc} = data
     console.log(title,desc);
@@ -21,11 +21,11 @@ export default function Cards({data,onDelete}) {
                                 className='fs-5 border-0'
                                 type='text'
                                 style={{ outline: "none", boxShadow: "none" }}
-                                defaultValue={title} readOnly
+                                value={title} readOnly
                             />
                             <hr />
                             <textarea
-                            defaultValue={desc}
+                            value={desc}
                                 className='border-0'
                                 rows={3}
                                 style={{ outline: "none", boxShadow: "none", resize: "none" }}
@@ -40,8 +40,9 @@ export default function Cards({data,onDelete}) {
                             zIndex: 1,
                             width: "37px",
                             height: "37px",
+                            backgroundColor:"#1A838D"
                         }}
-
+                        onClick={onEdit}
                     >
                         <EditIcon />
                     </Button>
@@ -52,6 +53,7 @@ export default function Cards({data,onDelete}) {
                             zIndex: 1,
                             width: "37px",
                             height: "37px",
+                            backgroundColor:"#1A838D"
                         }}
                         onClick={onDelete}
 

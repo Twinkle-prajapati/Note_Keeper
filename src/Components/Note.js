@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Button,Container,Row,Col,Card} from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
 import Cards from './Cards';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 
@@ -10,6 +11,7 @@ export default function Note() {
     const[title,setTitle]=useState("")
     const[desc,setDesc]=useState("")
     const[note,setNote]=useState(getData())
+    const[editindex,setEditindex]=useState(null)
 
 
 
@@ -24,22 +26,45 @@ export default function Note() {
     function handleDelete(index){
         setNote((prev) => {
             var updatedNotes = prev.filter((note, i) => i !== index);
-            localStorage.setItem('note', JSON.stringify(updatedNotes));
+            localStorage.setItem('notes', JSON.stringify(updatedNotes));
             return updatedNotes;
         });
     }
 
+    function handleEdit(index){
+        setEditindex(index)
+        setTitle(note[index].title)
+        setDesc(note[index].desc)
+
+
+    }
+
     const addnote=()=>{
-        if(title)
-        {
-            setNote((prev)=>[...prev,{title,desc}])
-            setTitle("")
-            setDesc("")
-        }
-        else
+        if(title.trim() === "")
         {
             alert("Title field required")
         }
+        else if (title.length > 10) {
+            alert("Title should not exceed 10 characters");
+        }
+        else
+        {
+            if(editindex !== null)
+            {
+                const updatedtodos = note.map((item,index)=>(index === editindex ? {title,desc}  : item))
+                setNote(updatedtodos)
+                setEditindex(null)
+                console.log(updatedtodos);
+            }
+            else
+            {
+                setNote((prev)=>[...prev,{title,desc}])
+            }
+            setTitle("")
+            setDesc("")
+        }
+
+
     }
 
 
@@ -82,10 +107,11 @@ export default function Note() {
                             borderRadius: "50%",
                             width: "40px",
                             height: "40px",
+                            backgroundColor:"#1A838D"
                         }}
                         onClick={addnote}
                     >
-                        <AddIcon />
+                    {editindex ? <EditIcon/> :<AddIcon />}
                     </Button>
                 </div>
             </Container>
@@ -93,7 +119,7 @@ export default function Note() {
                         <Row className='mb-4'>
                             {note.map((item,index)=>(
                                 <Col lg={3}>
-                                    <Cards key={index} data={item} onDelete={()=>handleDelete(index)}/>
+                                    <Cards key={index} data={item} onDelete={()=>handleDelete(index)} onEdit={()=>handleEdit(index)}/>
                                 </Col>
                                   ))}
                             </Row>

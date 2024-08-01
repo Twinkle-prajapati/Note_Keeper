@@ -5,9 +5,9 @@ import Navbar from 'react-bootstrap/Navbar';
 export default function Header() {
   return (
     <>
-    <Navbar className="bg-body-tertiary">
+    <Navbar style={{backgroundColor:"#1A838D"}}>
         <Container>
-          <Navbar.Brand className='p-3' href="#home">NOTE KEEPER</Navbar.Brand>
+          <Navbar.Brand className='p-3 text-white fw-semibold'>NOTE KEEPER</Navbar.Brand>
         </Container>
       </Navbar>
     </>
